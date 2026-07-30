@@ -297,7 +297,26 @@ app.delete("/api/chat/history", async (_req, res, next) => {
 
 wss.on("connection", (socket) => {
   socket.username = createUsername();
-  getOrCreateUserStyle(socket.username).catch(() => {});
+  getOrCreateUserStyle(socket.username)
+    .then((style) => {
+      socket.send(
+        JSON.stringify({
+          type: "assigned-name",
+          user: socket.username,
+          userColor: style.color,
+          userBg: style.bg,
+        }),
+      );
+    })
+    .catch(() => {
+      socket.send(
+        JSON.stringify({
+          type: "assigned-name",
+          user: socket.username,
+        }),
+      );
+    });
+
   socket.send(
     JSON.stringify({
       type: "history",

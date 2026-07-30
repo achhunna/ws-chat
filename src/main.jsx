@@ -9,33 +9,6 @@ function formatTime(ts) {
   });
 }
 
-function createUsername() {
-  const adjectives = [
-    "Blue",
-    "Swift",
-    "Quiet",
-    "Bright",
-    "Mellow",
-    "Orbit",
-    "Velvet",
-    "Lucky",
-  ];
-  const nouns = [
-    "Fox",
-    "Comet",
-    "Pilot",
-    "River",
-    "Spark",
-    "Drift",
-    "Atlas",
-    "Echo",
-  ];
-  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-  const noun = nouns[Math.floor(Math.random() * nouns.length)];
-  const suffix = Math.floor(10 + Math.random() * 90);
-  return `${adjective}${noun}${suffix}`;
-}
-
 function getStoredUsername() {
   try {
     return localStorage.getItem("ws-chat.username") || "";
@@ -102,13 +75,15 @@ function App() {
   React.useEffect(() => {
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
     const ws = new WebSocket(`${protocol}://${window.location.host}/socket`);
-    const localName = getStoredUsername() || createUsername();
-    setName(localName);
-    setStoredUsername(localName);
+    const storedName = getStoredUsername();
+    if (storedName) setName(storedName);
 
     ws.onopen = () => setStatus("live");
     ws.addEventListener("open", () => {
-      ws.send(JSON.stringify({ type: "hello", user: localName }));
+      const helloPayload = storedName
+        ? { type: "hello", user: storedName }
+        : { type: "hello" };
+      ws.send(JSON.stringify(helloPayload));
     });
     ws.onmessage = (event) => {
       const payload = JSON.parse(event.data);
