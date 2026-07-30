@@ -164,7 +164,6 @@ function App() {
     }
   }
 
-  console.log({ messages });
   const users = messages.reduce((acc, message) => {
     if (acc.indexOf(message.user) === -1) {
       acc.push(message.user);
