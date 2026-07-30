@@ -20,11 +20,11 @@ Open `http://localhost/chat`.
 ## History
 
 ```bash
-curl http://localhost:3001/api/chat/history
+curl http://localhost/api/chat/history
 ```
 
 ## Clear
 
 ```bash
-curl -X DELETE http://localhost:3001/api/chat/history
+curl -X DELETE http://localhost/api/chat/history
 ```
