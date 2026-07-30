@@ -38,7 +38,7 @@ function createUsername() {
 
 function getStoredUsername() {
   try {
-    return localStorage.getItem("ws-test.username") || "";
+    return localStorage.getItem("ws-chat.username") || "";
   } catch {
     return "";
   }
@@ -46,7 +46,7 @@ function getStoredUsername() {
 
 function setStoredUsername(value) {
   try {
-    localStorage.setItem("ws-test.username", value);
+    localStorage.setItem("ws-chat.username", value);
   } catch {
     // Ignore storage failures.
   }

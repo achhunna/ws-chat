@@ -1,4 +1,4 @@
-# ws-test
+# ws-chat
 
 Small realtime telemetry demo with:
 
